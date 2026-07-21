@@ -232,6 +232,26 @@ if (!REDUCED) {
     scrollTrigger: { trigger: ".works", start: "top 75%" },
   });
 
+  /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
+     e "( il metodo )" appare per ultimo, sotto */
+  const metodoPin = document.querySelector(".js-metodo-pin");
+  if (metodoPin) {
+    const metodoWords = splitWords(metodoPin.querySelector(".js-metodo-words"));
+    const metodoLabel = metodoPin.querySelector(".js-metodo-label");
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: metodoPin,
+        start: "top top",
+        end: "+=160%",
+        pin: true,
+        scrub: true,
+        anticipatePin: 1,
+      },
+    })
+      .fromTo(metodoWords, { opacity: 0.08 }, { opacity: 1, stagger: 0.06, ease: "none" })
+      .fromTo(metodoLabel, { opacity: 0, y: 16 }, { opacity: 0.55, y: 0, duration: 0.6, ease: "none" }, ">+=0.25");
+  }
+
   /* Marquee: scorrono da sole, accelerano se scrolli forte */
   document.querySelectorAll(".js-marquee").forEach((m) => {
     const track = m.querySelector(".js-marquee-track");

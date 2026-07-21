@@ -570,7 +570,24 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   max-width: 78rem;
 }
 .studio .mono-label { display: block; margin-bottom: 2rem; }
-.studio__motto { margin-top: 18vh; }
+
+/* scena pinnata: schermo bloccato, testo centrato, label per ultima */
+.studio__intro {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.studio__intro-label {
+  margin: 2.4rem 0 0;
+  opacity: 0.55;
+}
+.studio .studio__intro-label { margin-bottom: 0; }
+html.js .js-metodo-label { opacity: 0; }
+
+.studio__motto { margin-top: 8vh; }
 
 .studio__services { margin-top: 16vh; }
 .services { border-top: 1px solid var(--hair); margin-top: 1rem; }
@@ -761,8 +778,8 @@ html.js .service-row { opacity: 0; }
   .manifesto__sub { justify-content: flex-start; }
   .manifesto { padding: 16vh var(--pad) 12vh; }
   .manifesto__sub { margin-top: 9vh; }
-  .studio { padding: 14vh var(--pad); }
-  .studio__motto { margin-top: 12vh; }
+  .studio { padding: 10vh var(--pad) 14vh; }
+  .studio__motto { margin-top: 6vh; }
   .studio__services { margin-top: 11vh; }
   .studio__closing { margin-top: 11vh; }
   .team { padding: 7vh var(--pad) 13vh; }
@@ -834,10 +851,12 @@ html.js .service-row { opacity: 0; }
   html.js .fade-up,
   html.js .fade-card,
   html.js .team-row,
-  html.js .service-row {
+  html.js .service-row,
+  html.js .js-metodo-label {
     opacity: 1;
     transform: none;
   }
+  html.js .js-metodo-label { opacity: 0.55; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
