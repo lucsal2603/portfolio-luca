@@ -256,42 +256,55 @@ if (!REDUCED) {
   }
 
   /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
-     e "( il metodo )" appare per ultimo, sotto */
+     "( il metodo )" appare per ultimo — poi una pausa, e la parte sotto
+     sale col suo sfondo bianco a coprire la scena */
   const metodoPin = document.querySelector(".js-metodo-pin");
   if (metodoPin) {
     const metodoWords = splitWords(metodoPin.querySelector(".js-metodo-words"));
     const metodoLabel = metodoPin.querySelector(".js-metodo-label");
-    gsap.timeline({
+    const studioRest = document.querySelector(".studio__rest");
+    /* pista di scroll: reveal (~130vh) + pausa (~30vh) + copertura (100vh) */
+    if (studioRest) gsap.set(studioRest, { marginTop: "160vh" });
+    const metodoTl = gsap.timeline({
       scrollTrigger: {
         trigger: metodoPin,
         start: "top top",
-        end: "+=160%",
+        end: "+=260%",
         pin: true,
+        pinSpacing: false,   /* niente spazio extra: la parte dopo scorre SOPRA la scena */
         scrub: true,
         anticipatePin: 1,
       },
     })
       .fromTo(metodoWords, { opacity: 0.08 }, { opacity: 1, stagger: 0.06, ease: "none" })
       .fromTo(metodoLabel, { opacity: 0, y: 16 }, { opacity: 0.55, y: 0, duration: 0.6, ease: "none" }, ">+=0.25");
+    /* coda pari al reveal: il resto della corsa è pausa + copertura */
+    metodoTl.to({}, { duration: metodoTl.duration() });
   }
 
-  /* CTA finale: si blocca centrata; "( l'AI non sa cosa metterci." appare
-     con lo scroll, e "io sì )" arriva solo dopo */
+  /* CTA finale: all'arrivo si vede solo "Creo siti…", poi lo schermo si blocca.
+     Con uno scroll lungo appare "Partiamo da un foglio bianco.", poi la battuta
+     in due tempi, e per ultimi i tasti con "( risponde un umano, sempre )" */
   const ctaAside = document.querySelector(".js-cta-aside");
   if (ctaAside) {
+    const ctaBig = document.querySelector(".js-cta-big");
+    const ctaBigWords = splitWords(ctaBig);
     gsap.timeline({
       scrollTrigger: {
         trigger: ".cta",
         start: "top top",
-        end: "+=120%",
+        end: "+=230%",
         pin: true,
         scrub: true,
         anticipatePin: 1,
       },
     })
-      .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, 0.15)
-      .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, ">+=0.4")
-      .to({}, { duration: 0.3 });   /* coda: "io sì )" resta in scena prima dello sblocco */
+      .set(ctaBig, { opacity: 1 }, 0)
+      .fromTo(ctaBigWords, { opacity: 0.08 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
+      .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
+      .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
+      .fromTo(".js-cta-end", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "none" }, ">+=0.35")
+      .to({}, { duration: 0.45 });   /* coda: tutto resta in scena prima dello sblocco */
   }
 
   /* Marquee: scorrono da sole, accelerano se scrolli forte */

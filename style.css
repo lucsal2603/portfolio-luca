@@ -609,6 +609,20 @@ html.js .js-manifesto-s2 { opacity: 0; }
 .studio .studio__intro-label { margin-bottom: 0; }
 html.js .js-metodo-label { opacity: 0; }
 
+/* la parte sotto sale col suo sfondo bianco e copre la scena pinnata */
+.studio__rest {
+  position: relative;
+  z-index: 2;
+  margin-top: 10vh;   /* con JS+motion diventa la pista di scroll (160vh) */
+}
+.studio__rest::before {
+  content: "";
+  position: absolute;
+  inset: -1px -100vw 0;
+  background: var(--bg);
+  z-index: -1;
+}
+
 .studio__motto { margin-top: 8vh; }
 
 .studio__services { margin-top: 16vh; }
@@ -716,6 +730,8 @@ html.js .js-metodo-label { opacity: 0; }
 }
 .cta__aside span { display: inline-block; }
 html.js .js-cta-aside span { opacity: 0; }
+html.js .js-cta-big { opacity: 0; }
+html.js .js-cta-end { opacity: 0; }
 .cta .statement-sm { opacity: 0.8; max-width: 40rem; }
 .cta__actions {
   display: flex;
@@ -880,6 +896,8 @@ html.js .service-row { opacity: 0; }
   html.js .service-row,
   html.js .js-metodo-label,
   html.js .js-cta-aside span,
+  html.js .js-cta-big,
+  html.js .js-cta-end,
   html.js .js-manifesto-s1,
   html.js .js-manifesto-s2 {
     opacity: 1;
