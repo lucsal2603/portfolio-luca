@@ -682,13 +682,18 @@ html.js .js-metodo-label { opacity: 0; }
 /* ============ CTA ============ */
 
 .cta {
-  padding: 24vh var(--pad) 20vh;
+  padding: 12vh var(--pad);
+  min-height: 100vh;
+  min-height: 100svh;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2.2rem;
 }
+.cta__aside span { display: inline-block; }
+html.js .js-cta-aside span { opacity: 0; }
 .cta .statement-sm { opacity: 0.8; max-width: 40rem; }
 .cta__actions {
   display: flex;
@@ -783,7 +788,7 @@ html.js .service-row { opacity: 0; }
   .studio__services { margin-top: 11vh; }
   .studio__closing { margin-top: 11vh; }
   .team { padding: 7vh var(--pad) 13vh; }
-  .cta { padding: 17vh var(--pad) 14vh; }
+  .cta { padding: 8vh var(--pad); }
 }
 
 @media (max-width: 560px) {
@@ -852,7 +857,8 @@ html.js .service-row { opacity: 0; }
   html.js .fade-card,
   html.js .team-row,
   html.js .service-row,
-  html.js .js-metodo-label {
+  html.js .js-metodo-label,
+  html.js .js-cta-aside span {
     opacity: 1;
     transform: none;
   }

@@ -252,6 +252,25 @@ if (!REDUCED) {
       .fromTo(metodoLabel, { opacity: 0, y: 16 }, { opacity: 0.55, y: 0, duration: 0.6, ease: "none" }, ">+=0.25");
   }
 
+  /* CTA finale: si blocca centrata; "( l'AI non sa cosa metterci." appare
+     con lo scroll, e "io sì )" arriva solo dopo */
+  const ctaAside = document.querySelector(".js-cta-aside");
+  if (ctaAside) {
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".cta",
+        start: "top top",
+        end: "+=120%",
+        pin: true,
+        scrub: true,
+        anticipatePin: 1,
+      },
+    })
+      .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, 0.15)
+      .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, ">+=0.4")
+      .to({}, { duration: 0.3 });   /* coda: "io sì )" resta in scena prima dello sblocco */
+  }
+
   /* Marquee: scorrono da sole, accelerano se scrolli forte */
   document.querySelectorAll(".js-marquee").forEach((m) => {
     const track = m.querySelector(".js-marquee-track");
