@@ -232,6 +232,29 @@ if (!REDUCED) {
     scrollTrigger: { trigger: ".works", start: "top 75%" },
   });
 
+  /* PRESA DI POSIZIONE: label ferma in alto a sinistra, schermo bloccato;
+     la prima frase sale dal basso, la seconda entra da sinistra */
+  const manifestoPin = document.querySelector(".js-manifesto-pin");
+  if (manifestoPin) {
+    const s1 = manifestoPin.querySelector(".js-manifesto-s1");
+    const s1words = splitWords(s1);
+    const s2 = manifestoPin.querySelector(".js-manifesto-s2");
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: manifestoPin,
+        start: "top top",
+        end: "+=170%",
+        pin: true,
+        scrub: true,
+        anticipatePin: 1,
+      },
+    })
+      .set(s1, { opacity: 1 }, 0)
+      .fromTo(s1words, { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.8, ease: "none" }, 0.08)
+      .fromTo(s2, { opacity: 0, x: -90 }, { opacity: 1, x: 0, duration: 0.7, ease: "none" }, ">+=0.35")
+      .to({}, { duration: 0.35 });   /* coda: tutto il testo resta in scena prima dello sblocco */
+  }
+
   /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
      e "( il metodo )" appare per ultimo, sotto */
   const metodoPin = document.querySelector(".js-metodo-pin");

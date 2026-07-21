@@ -415,16 +415,38 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 /* ============ MANIFESTO ============ */
 
 .manifesto {
-  padding: 22vh var(--pad) 18vh;
+  padding: 0 var(--pad);
   max-width: 74rem;
 }
-.manifesto .mono-label { display: block; margin-bottom: 2rem; }
+
+/* scena pinnata: label in alto a sinistra, contenuto centrato */
+.manifesto__scene {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6.5rem 0 3rem;
+}
+.manifesto__label {
+  position: absolute;
+  top: 5.2rem;
+  left: 0;
+  opacity: 0.55;
+}
+.manifesto__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8vh;
+}
 .manifesto__sub {
   display: flex;
   justify-content: flex-end;
-  margin-top: 14vh;
 }
 .manifesto__sub .statement-sm { max-width: 34rem; }
+html.js .js-manifesto-s1,
+html.js .js-manifesto-s2 { opacity: 0; }
 
 /* ============ WORKS ============ */
 
@@ -781,8 +803,7 @@ html.js .service-row { opacity: 0; }
   .footer__links { justify-content: flex-start; flex-wrap: wrap; }
   .team-row { grid-template-columns: 1fr; gap: 0.15rem; }
   .manifesto__sub { justify-content: flex-start; }
-  .manifesto { padding: 16vh var(--pad) 12vh; }
-  .manifesto__sub { margin-top: 9vh; }
+  .manifesto__label { top: 4.6rem; }
   .studio { padding: 10vh var(--pad) 14vh; }
   .studio__motto { margin-top: 6vh; }
   .studio__services { margin-top: 11vh; }
@@ -858,7 +879,9 @@ html.js .service-row { opacity: 0; }
   html.js .team-row,
   html.js .service-row,
   html.js .js-metodo-label,
-  html.js .js-cta-aside span {
+  html.js .js-cta-aside span,
+  html.js .js-manifesto-s1,
+  html.js .js-manifesto-s2 {
     opacity: 1;
     transform: none;
   }
