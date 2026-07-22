@@ -289,13 +289,13 @@ if (!REDUCED) {
     pinScenes.push(metodoTl.scrollTrigger);
   }
 
-  /* CTA finale: all'arrivo si vede solo "Creo siti…", poi lo schermo si blocca.
-     Con uno scroll lungo appare "Partiamo da un foglio bianco.", poi la battuta
-     in due tempi, e per ultimi i tasti con "( risponde un umano, sempre )" */
+  /* CTA finale: all'arrivo si vede subito "Partiamo da un foglio bianco.",
+     poi lo schermo si blocca. Con lo scroll appare "Creo siti…" sopra,
+     poi la battuta in due tempi, e per ultimi i tasti con la nota */
   const ctaAside = document.querySelector(".js-cta-aside");
   if (ctaAside) {
-    const ctaBig = document.querySelector(".js-cta-big");
-    const ctaBigWords = splitWords(ctaBig);
+    const ctaSm = document.querySelector(".js-cta-sm");
+    const ctaSmWords = splitWords(ctaSm);
     const ctaTl = gsap.timeline({
       scrollTrigger: {
         trigger: ".cta",
@@ -307,8 +307,8 @@ if (!REDUCED) {
       },
     });
     ctaTl
-      .set(ctaBig, { opacity: 1 }, 0)
-      .fromTo(ctaBigWords, { opacity: 0 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
+      .set(ctaSm, { opacity: 1 }, 0)
+      .fromTo(ctaSmWords, { opacity: 0 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
       .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
       /* "io sì" si fa desiderare: arriva dopo un bel pezzo di scroll, e in grassetto */
       .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.95")
