@@ -241,7 +241,9 @@ if (!REDUCED) {
     pinScenes.push(manifestoTl.scrollTrigger);
   }
 
-  /* Rail LAVORI: pinnata su desktop, lettere che si girano */
+  /* Rail LAVORI: pinnata su desktop, lettere che si girano.
+     Le lettere entrano solo quando la sezione è quasi tutta a schermo,
+     così non spuntano mentre sopra c'è ancora la presa di posizione */
   ScrollTrigger.matchMedia({
     "(min-width: 900px)": function () {
       ScrollTrigger.create({
@@ -251,16 +253,27 @@ if (!REDUCED) {
         pin: ".works__rail",
         pinSpacing: false,
       });
+      gsap.from(".works__rail-letter", {
+        opacity: 0,
+        rotateX: 90,
+        y: 30,
+        duration: 0.9,
+        ease: "power4.out",
+        stagger: 0.08,
+        scrollTrigger: { trigger: ".works", start: "top 15%" },
+      });
     },
-  });
-  gsap.from(".works__rail-letter", {
-    opacity: 0,
-    rotateX: 90,
-    y: 30,
-    duration: 0.9,
-    ease: "power4.out",
-    stagger: 0.08,
-    scrollTrigger: { trigger: ".works", start: "top 75%" },
+    "(max-width: 899px)": function () {
+      gsap.from(".works__rail-letter", {
+        opacity: 0,
+        rotateX: 90,
+        y: 30,
+        duration: 0.9,
+        ease: "power4.out",
+        stagger: 0.08,
+        scrollTrigger: { trigger: ".works", start: "top 75%" },
+      });
+    },
   });
 
   /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
