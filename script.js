@@ -5,6 +5,14 @@
 
 document.documentElement.classList.add("js");
 
+/* al ricaricamento si riparte sempre da cima: niente atterraggi
+   a metà pagina (o a metà scena pinnata) dopo refresh o cambio lingua.
+   Il ripristino del browser può scattare dopo lo script: lo battiamo sul load */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const forceTop = () => window.scrollTo(0, 0);
+forceTop();
+window.addEventListener("load", () => { forceTop(); setTimeout(forceTop, 0); });
+
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const FINE_POINTER = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -13,6 +21,8 @@ const FINE_POINTER = window.matchMedia("(hover: hover) and (pointer: fine)").mat
    Priorità: scelta salvata > lingua del dispositivo.
    ------------------------------------------------------------ */
 const LANG = (() => {
+  const fromUrl = location.search.match(/[?&]lang=(it|en)\b/);
+  if (fromUrl) return fromUrl[1];
   try {
     const saved = localStorage.getItem("lang");
     if (saved === "it" || saved === "en") return saved;
@@ -160,8 +170,10 @@ if (langBtn) {
   langBtn.textContent = LANG === "it" ? "EN" : "IT";
   langBtn.title = LANG === "it" ? "English version" : "Versione italiana";
   langBtn.addEventListener("click", () => {
-    try { localStorage.setItem("lang", LANG === "it" ? "en" : "it"); } catch (e) {}
-    location.reload();
+    const next = LANG === "it" ? "en" : "it";
+    try { localStorage.setItem("lang", next); } catch (e) {}
+    /* URL nuovo, non reload: così si riparte sempre da cima */
+    location.replace(location.pathname + "?lang=" + next);
   });
 }
 
