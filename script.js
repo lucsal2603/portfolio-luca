@@ -181,9 +181,12 @@ if (!REDUCED) {
       .fromTo(meta, { opacity: 0, y: 24 }, {
         opacity: 1, y: 0, duration: 0.7, ease: "power3.out",
       }, "-=0.45");
-    /* parallasse leggera dentro la cornice */
-    gsap.fromTo(card.querySelector(".work__ph"), { yPercent: -6 }, {
-      yPercent: 6, ease: "none",
+    /* parallasse leggera dentro la cornice; le immagini vere viaggiano
+       leggermente ingrandite così i bordi non si scoprono mai */
+    const inner = card.querySelector(".work__img") || card.querySelector(".work__ph");
+    const overscan = inner.classList.contains("work__img") ? 1.12 : 1;
+    gsap.fromTo(inner, { yPercent: -6, scale: overscan }, {
+      yPercent: 6, scale: overscan, ease: "none",
       scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true },
     });
   });
