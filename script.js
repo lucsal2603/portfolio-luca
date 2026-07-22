@@ -319,7 +319,8 @@ if (!REDUCED) {
         end: "+=250%",
         pin: true,
         scrub: true,
-        anticipatePin: 1,
+        /* niente anticipatePin: col titolo già visibile qualsiasi
+           aggancio anticipato si vedrebbe come uno scatto */
       },
     });
     ctaTl
