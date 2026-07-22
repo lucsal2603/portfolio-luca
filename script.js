@@ -237,7 +237,7 @@ if (!REDUCED) {
       .set(s1, { opacity: 1 }, 0)
       .fromTo(s1words, { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.8, ease: "none" }, 0.08)
       .fromTo(s2, { opacity: 0, x: -90 }, { opacity: 1, x: 0, duration: 0.7, ease: "none" }, ">+=0.35")
-      .to({}, { duration: 0.35 });   /* coda: tutto il testo resta in scena prima dello sblocco */
+      .to({}, { duration: 0.55 });   /* coda: tutto il testo resta in scena prima dello sblocco */
     pinScenes.push(manifestoTl.scrollTrigger);
   }
 
@@ -326,13 +326,20 @@ if (!REDUCED) {
       /* "io sì" si fa desiderare: arriva dopo un bel pezzo di scroll, e in grassetto */
       .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.95")
       .fromTo(".js-cta-end", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "none" }, ">+=0.35")
-      .to({}, { duration: 0.45 });   /* coda: tutto resta in scena prima dello sblocco */
+      .to({}, { duration: 0.65 });   /* coda: tutto resta in scena prima dello sblocco */
     pinScenes.push(ctaTl.scrollTrigger);
   }
 
   /* i refresh devono ricalcolare i trigger dall'alto verso il basso,
-     così ogni pin tiene conto dello spazio dei pin precedenti */
-  ScrollTrigger.sort();
+     così ogni pin tiene conto dello spazio dei pin precedenti.
+     Ordino per posizione REALE nel documento (a prova di valori stantii)
+     e ri-ordino a ogni refresh (resize, barra mobile, ecc.) */
+  const byDocOrder = (a, b) => {
+    if (!a.trigger || !b.trigger || a.trigger === b.trigger) return 0;
+    return a.trigger.compareDocumentPosition(b.trigger) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+  };
+  ScrollTrigger.sort(byDocOrder);
+  ScrollTrigger.addEventListener("refreshInit", () => ScrollTrigger.sort(byDocOrder));
 
   /* SUGGERIMENTO ANTI-BLOCCO: se l'utente si ferma dentro una scena pinnata
      e il testo non è ancora tutto comparso, glielo diciamo con gentilezza */
