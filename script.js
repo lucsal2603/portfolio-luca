@@ -143,6 +143,11 @@ document.addEventListener("visibilitychange", fitWordmark);
 if (!REDUCED) {
   const pinScenes = [];   /* le scene pinnate: servono al suggerimento anti-blocco */
 
+  /* pista di scroll del pannello nero: va impostata PRIMA di creare
+     qualsiasi trigger, così tutte le misure partono dal layout definitivo */
+  const studioRest = document.querySelector(".studio__rest");
+  if (studioRest) gsap.set(studioRest, { marginTop: "160vh" });
+
   /* Grandi frasi: reveal parola per parola, legato allo scroll */
   document.querySelectorAll(".reveal-words").forEach((el) => {
     const words = splitWords(el);
@@ -212,28 +217,6 @@ if (!REDUCED) {
     scrollTrigger: { trigger: ".hero", start: "bottom bottom", end: "bottom top", scrub: true },
   });
 
-  /* Rail LAVORI: pinnata su desktop, lettere che si girano */
-  ScrollTrigger.matchMedia({
-    "(min-width: 900px)": function () {
-      ScrollTrigger.create({
-        trigger: ".works",
-        start: "top top+=90",
-        end: "bottom bottom-=120",
-        pin: ".works__rail",
-        pinSpacing: false,
-      });
-    },
-  });
-  gsap.from(".works__rail-letter", {
-    opacity: 0,
-    rotateX: 90,
-    y: 30,
-    duration: 0.9,
-    ease: "power4.out",
-    stagger: 0.08,
-    scrollTrigger: { trigger: ".works", start: "top 75%" },
-  });
-
   /* PRESA DI POSIZIONE: label ferma in alto a sinistra, schermo bloccato;
      la prima frase sale dal basso, la seconda entra da sinistra */
   const manifestoPin = document.querySelector(".js-manifesto-pin");
@@ -258,16 +241,36 @@ if (!REDUCED) {
     pinScenes.push(manifestoTl.scrollTrigger);
   }
 
+  /* Rail LAVORI: pinnata su desktop, lettere che si girano */
+  ScrollTrigger.matchMedia({
+    "(min-width: 900px)": function () {
+      ScrollTrigger.create({
+        trigger: ".works",
+        start: "top top+=90",
+        end: "bottom bottom-=120",
+        pin: ".works__rail",
+        pinSpacing: false,
+      });
+    },
+  });
+  gsap.from(".works__rail-letter", {
+    opacity: 0,
+    rotateX: 90,
+    y: 30,
+    duration: 0.9,
+    ease: "power4.out",
+    stagger: 0.08,
+    scrollTrigger: { trigger: ".works", start: "top 75%" },
+  });
+
   /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
      "( il metodo )" appare per ultimo — poi una pausa, e la parte sotto
-     sale col suo sfondo bianco a coprire la scena */
+     sale col suo sfondo bianco a coprire la scena
+     (pista di scroll: reveal ~130vh + pausa ~30vh + copertura 100vh) */
   const metodoPin = document.querySelector(".js-metodo-pin");
   if (metodoPin) {
     const metodoWords = splitWords(metodoPin.querySelector(".js-metodo-words"));
     const metodoLabel = metodoPin.querySelector(".js-metodo-label");
-    const studioRest = document.querySelector(".studio__rest");
-    /* pista di scroll: reveal (~130vh) + pausa (~30vh) + copertura (100vh) */
-    if (studioRest) gsap.set(studioRest, { marginTop: "160vh" });
     const metodoTl = gsap.timeline({
       scrollTrigger: {
         trigger: metodoPin,
@@ -313,6 +316,10 @@ if (!REDUCED) {
       .to({}, { duration: 0.45 });   /* coda: tutto resta in scena prima dello sblocco */
     pinScenes.push(ctaTl.scrollTrigger);
   }
+
+  /* i refresh devono ricalcolare i trigger dall'alto verso il basso,
+     così ogni pin tiene conto dello spazio dei pin precedenti */
+  ScrollTrigger.sort();
 
   /* SUGGERIMENTO ANTI-BLOCCO: se l'utente si ferma dentro una scena pinnata
      e il testo non è ancora tutto comparso, glielo diciamo con gentilezza */
