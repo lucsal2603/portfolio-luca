@@ -297,7 +297,7 @@ if (!REDUCED) {
       scrollTrigger: {
         trigger: ".cta",
         start: "top top",
-        end: "+=230%",
+        end: "+=250%",
         pin: true,
         scrub: true,
         anticipatePin: 1,
@@ -307,7 +307,8 @@ if (!REDUCED) {
       .set(ctaBig, { opacity: 1 }, 0)
       .fromTo(ctaBigWords, { opacity: 0 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
       .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
-      .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
+      /* "io sì" si fa desiderare: arriva dopo un bel pezzo di scroll, e in grassetto */
+      .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.95")
       .fromTo(".js-cta-end", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "none" }, ">+=0.35")
       .to({}, { duration: 0.45 });   /* coda: tutto resta in scena prima dello sblocco */
     pinScenes.push(ctaTl.scrollTrigger);

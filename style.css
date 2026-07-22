@@ -655,7 +655,7 @@ html.js .js-metodo-label { opacity: 0; }
   margin-top: 10vh;               /* con JS+motion diventa la pista di scroll (160vh) */
   color: #fff;
   padding-top: calc(var(--arch) + 3rem);
-  padding-bottom: 8vh;
+  padding-bottom: calc(var(--arch) + 3rem);
 }
 .studio__rest::before {
   content: "";
@@ -666,7 +666,7 @@ html.js .js-metodo-label { opacity: 0; }
   width: 100vw;
   transform: translateX(-50%);
   background: var(--ink);
-  border-radius: 50% 50% 0 0 / var(--arch) var(--arch) 0 0;
+  border-radius: 50% / var(--arch);   /* cupola sopra (∩) e sotto (∪) */
   z-index: -1;
 }
 .studio__rest .services { border-top-color: rgba(255, 255, 255, 0.25); }
@@ -780,6 +780,7 @@ html.js .js-metodo-label { opacity: 0; }
   gap: 2.2rem;
 }
 .cta__aside span { display: inline-block; }
+.js-cta-aside-2 { font-weight: 700; }
 html.js .js-cta-aside span { opacity: 0; }
 html.js .js-cta-big { opacity: 0; }
 html.js .js-cta-end { opacity: 0; }
