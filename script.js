@@ -182,11 +182,13 @@ if (!REDUCED) {
         opacity: 1, y: 0, duration: 0.7, ease: "power3.out",
       }, "-=0.45");
     /* parallasse leggera dentro la cornice; le immagini vere viaggiano
-       leggermente ingrandite così i bordi non si scoprono mai */
+       leggermente ingrandite così i bordi non si scoprono mai.
+       data-shift sposta l'inquadratura in orizzontale (%) per dare aria al soggetto */
     const inner = card.querySelector(".work__img") || card.querySelector(".work__ph");
     const overscan = inner.classList.contains("work__img") ? 1.12 : 1;
-    gsap.fromTo(inner, { yPercent: -6, scale: overscan }, {
-      yPercent: 6, scale: overscan, ease: "none",
+    const shiftX = parseFloat(inner.dataset && inner.dataset.shift ? inner.dataset.shift : 0) || 0;
+    gsap.fromTo(inner, { yPercent: -6, xPercent: shiftX, scale: overscan }, {
+      yPercent: 6, xPercent: shiftX, scale: overscan, ease: "none",
       scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true },
     });
   });
