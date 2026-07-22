@@ -144,7 +144,8 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: #fff;
+  mix-blend-mode: difference;   /* leggibile su bianco E sul pannello nero */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
@@ -449,6 +450,8 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 .manifesto {
   padding: 0 var(--pad);
   max-width: 74rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* scena pinnata: label in alto a sinistra, contenuto centrato */
@@ -622,6 +625,8 @@ html.js .js-manifesto-s2 { opacity: 0; }
 .studio {
   padding: 20vh var(--pad);
   max-width: 78rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 .studio .mono-label { display: block; margin-bottom: 2rem; }
 
@@ -641,19 +646,31 @@ html.js .js-manifesto-s2 { opacity: 0; }
 .studio .studio__intro-label { margin-bottom: 0; }
 html.js .js-metodo-label { opacity: 0; }
 
-/* la parte sotto sale col suo sfondo bianco e copre la scena pinnata */
+/* la parte sotto sale come pannello NERO con l'arco (∩) in testa
+   e copre la scena pinnata */
 .studio__rest {
+  --arch: 9vh;                    /* altezza dell'arco */
   position: relative;
   z-index: 2;
-  margin-top: 10vh;   /* con JS+motion diventa la pista di scroll (160vh) */
+  margin-top: 10vh;               /* con JS+motion diventa la pista di scroll (160vh) */
+  color: #fff;
+  padding-top: calc(var(--arch) + 3rem);
+  padding-bottom: 8vh;
 }
 .studio__rest::before {
   content: "";
   position: absolute;
-  inset: -1px -100vw 0;
-  background: var(--bg);
+  top: -1px;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--ink);
+  border-radius: 50% 50% 0 0 / var(--arch) var(--arch) 0 0;
   z-index: -1;
 }
+.studio__rest .services { border-top-color: rgba(255, 255, 255, 0.25); }
+.studio__rest .service-row { border-bottom-color: rgba(255, 255, 255, 0.25); }
 
 .studio__motto { margin-top: 8vh; }
 
@@ -683,6 +700,8 @@ html.js .js-metodo-label { opacity: 0; }
 .team {
   padding: 10vh var(--pad) 18vh;
   max-width: 78rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 .team__list { margin-top: 3.5rem; border-top: 1px solid var(--hair); }
 .team-row {
@@ -900,6 +919,7 @@ html.js .service-row { opacity: 0; }
     align-items: flex-start;
     gap: 0.3rem;
   }
+  .studio__rest { --arch: 6vh; padding-top: calc(var(--arch) + 1.6rem); }
 
   .glitch { padding: 5vh 0; gap: 0.9rem; }
 
