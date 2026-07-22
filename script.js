@@ -141,6 +141,8 @@ document.addEventListener("visibilitychange", fitWordmark);
    SCROLL ANIMATIONS — "ovunque", come da contratto
    ------------------------------------------------------------ */
 if (!REDUCED) {
+  const pinScenes = [];   /* le scene pinnate: servono al suggerimento anti-blocco */
+
   /* Grandi frasi: reveal parola per parola, legato allo scroll */
   document.querySelectorAll(".reveal-words").forEach((el) => {
     const words = splitWords(el);
@@ -239,7 +241,7 @@ if (!REDUCED) {
     const s1 = manifestoPin.querySelector(".js-manifesto-s1");
     const s1words = splitWords(s1);
     const s2 = manifestoPin.querySelector(".js-manifesto-s2");
-    gsap.timeline({
+    const manifestoTl = gsap.timeline({
       scrollTrigger: {
         trigger: manifestoPin,
         start: "top top",
@@ -253,6 +255,7 @@ if (!REDUCED) {
       .fromTo(s1words, { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.8, ease: "none" }, 0.08)
       .fromTo(s2, { opacity: 0, x: -90 }, { opacity: 1, x: 0, duration: 0.7, ease: "none" }, ">+=0.35")
       .to({}, { duration: 0.35 });   /* coda: tutto il testo resta in scena prima dello sblocco */
+    pinScenes.push(manifestoTl.scrollTrigger);
   }
 
   /* METODO: lo schermo si blocca, il testo si rivela con lo scroll,
@@ -280,6 +283,7 @@ if (!REDUCED) {
       .fromTo(metodoLabel, { opacity: 0, y: 16 }, { opacity: 0.55, y: 0, duration: 0.6, ease: "none" }, ">+=0.25");
     /* coda pari al reveal: il resto della corsa è pausa + copertura */
     metodoTl.to({}, { duration: metodoTl.duration() });
+    pinScenes.push(metodoTl.scrollTrigger);
   }
 
   /* CTA finale: all'arrivo si vede solo "Creo siti…", poi lo schermo si blocca.
@@ -289,7 +293,7 @@ if (!REDUCED) {
   if (ctaAside) {
     const ctaBig = document.querySelector(".js-cta-big");
     const ctaBigWords = splitWords(ctaBig);
-    gsap.timeline({
+    const ctaTl = gsap.timeline({
       scrollTrigger: {
         trigger: ".cta",
         start: "top top",
@@ -298,13 +302,38 @@ if (!REDUCED) {
         scrub: true,
         anticipatePin: 1,
       },
-    })
+    });
+    ctaTl
       .set(ctaBig, { opacity: 1 }, 0)
-      .fromTo(ctaBigWords, { opacity: 0.08 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
+      .fromTo(ctaBigWords, { opacity: 0 }, { opacity: 1, stagger: 0.12, duration: 1, ease: "none" }, 0.1)
       .fromTo(".js-cta-aside-1", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
       .fromTo(".js-cta-aside-2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, ">+=0.35")
       .fromTo(".js-cta-end", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "none" }, ">+=0.35")
       .to({}, { duration: 0.45 });   /* coda: tutto resta in scena prima dello sblocco */
+    pinScenes.push(ctaTl.scrollTrigger);
+  }
+
+  /* SUGGERIMENTO ANTI-BLOCCO: se l'utente si ferma dentro una scena pinnata
+     e il testo non è ancora tutto comparso, glielo diciamo con gentilezza */
+  const scrollHint = document.querySelector(".scroll-hint");
+  if (scrollHint && pinScenes.length) {
+    let hintTimer = null;
+    const armHint = () => {
+      scrollHint.classList.remove("show");
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => {
+        if (typeof menuOpen !== "undefined" && menuOpen) return;
+        const stuck = pinScenes.some(
+          (st) => st && st.isActive && st.animation && st.animation.progress() < 0.98
+        );
+        if (stuck) scrollHint.classList.add("show");
+      }, 2400);
+    };
+    ["scroll", "wheel", "touchmove"].forEach((ev) =>
+      window.addEventListener(ev, armHint, { passive: true })
+    );
+    if (lenis) lenis.on("scroll", armHint);
+    armHint();
   }
 
   /* Marquee: scorrono da sole, accelerano se scrolli forte */
