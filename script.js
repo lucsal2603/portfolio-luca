@@ -91,11 +91,10 @@ function applyEnglish() {
     "A typeface drawn from scratch, letter by letter. Yes, even the Q. Especially the Q.",
     "AI consulting for companies. Yes, sometimes the enemy is a client. Pays on time, though.",
     "A bubbly, chunky, groovy display typeface. Seven styles, one ego.",
-    "An art farmhouse near Mantua. Any more handcrafted and it's the Middle Ages.",
   ];
   document.querySelectorAll(".work__desc").forEach((el, i) => (el.textContent = descs[i] || el.textContent));
   document.querySelectorAll(".work[data-cursor]").forEach((el) => el.setAttribute("data-cursor", "see it live →"));
-  set(".works__count", "TOTAL ( 04 )");
+  set(".works__count", "TOTAL ( 03 )");
   setN(document.querySelector(".js-ai-toggle"), 0, "\n            AI MODE\n            ");
 
   /* metodo */
