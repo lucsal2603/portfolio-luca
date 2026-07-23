@@ -47,11 +47,13 @@ function applyEnglish() {
   const setN = (el, i, txt) => { if (el && el.childNodes[i]) el.childNodes[i].nodeValue = txt; };
 
   document.documentElement.lang = "en";
-  document.title = "Luca Salvemini — 100% human web developer";
+  document.title = "Luca Salvemini — Web Developer in Brescia, Italy · 100% human";
   const meta = (s, v) => { const m = document.querySelector(s); if (m) m.setAttribute("content", v); };
-  meta('meta[name="description"]', "Handmade websites from Brescia, Italy. Zero AI, zero templates, zero degree. Lots of care, lots of coffee.");
-  meta('meta[property="og:title"]', "Luca Salvemini — Portfolio");
-  meta('meta[property="og:description"]', "Handmade websites. In a world that generates, I write.");
+  meta('meta[name="description"]', "Freelance web developer in Brescia, Italy. Handmade showcase sites, e-commerce and landing pages: zero AI, zero templates, lots of care (and coffee).");
+  meta('meta[property="og:title"]', "Luca Salvemini — Web Developer in Brescia, Italy");
+  meta('meta[property="og:description"]', "Handmade websites, 100% human. In a world that generates, I write.");
+  meta('meta[name="twitter:title"]', "Luca Salvemini — Web Developer in Brescia, Italy");
+  meta('meta[name="twitter:description"]', "Handmade websites, 100% human. In a world that generates, I write.");
 
   set(".skip-link", "Skip to work");
 
@@ -71,7 +73,7 @@ function applyEnglish() {
   setN(document.querySelector(".hero__cta .pill__label"), 0, "LET'S TALK");
   set(".hero__cert", "( certified 100% human )");
   const wm = document.querySelector(".hero__wordmark");
-  if (wm) wm.setAttribute("aria-label", "Luca, ironically registered trademark");
+  if (wm) wm.setAttribute("aria-label", "LUCA™ — Luca Salvemini, web developer in Brescia, Italy");
   const where = document.querySelector(".hero__where");
   if (where) where.innerHTML = "Web developer<br>in Brescia, Italy";
 
