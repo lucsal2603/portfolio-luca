@@ -76,8 +76,19 @@ a:focus-visible, button:focus-visible {
   background: var(--bg);
   border-top: 2px solid var(--ink);
   padding: 1.1rem var(--pad);
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.7s var(--ease-out), opacity 0.5s ease-out;
 }
-.cookie-banner[hidden] { display: none; }
+.cookie-banner.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner { transition: opacity 0.3s ease-out; }
+}
 .cookie-banner p {
   max-width: 46ch;
   color: var(--ink);

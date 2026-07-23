@@ -251,6 +251,7 @@ function runLoader() {
     loader.style.display = "none";
     gsap.set([".js-wm-letter", ".hero__tagline span", ".hero__cta", ".hero__where",
       ".hero__social", ".site-head__menu", ".site-head__nav a"], { opacity: 1, y: 0 });
+    window.dispatchEvent(new Event("app:ready"));
     return;
   }
 
@@ -282,6 +283,7 @@ function runLoader() {
         loader.style.display = "none";
         if (lenis) lenis.start();
         ScrollTrigger.refresh();
+        window.dispatchEvent(new Event("app:ready"));
       },
     })
     .add(heroEntrance(), "-=0.55");
@@ -742,18 +744,18 @@ if (REDUCED) {
 
   const banner = document.querySelector(".js-cookie-banner");
   if (!banner) return;
-  banner.hidden = false;
+  window.addEventListener("app:ready", () => { banner.classList.add("is-visible"); }, { once: true });
 
   const accept = banner.querySelector(".js-cookie-accept");
   const reject = banner.querySelector(".js-cookie-reject");
 
   accept.addEventListener("click", () => {
     try { localStorage.setItem(CONSENT_KEY, "granted"); } catch (e) {}
-    banner.hidden = true;
+    banner.classList.remove("is-visible");
     loadClarity();
   });
   reject.addEventListener("click", () => {
     try { localStorage.setItem(CONSENT_KEY, "denied"); } catch (e) {}
-    banner.hidden = true;
+    banner.classList.remove("is-visible");
   });
 })();
