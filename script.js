@@ -148,6 +148,11 @@ function applyEnglish() {
   if (legal[2]) legal[2].textContent = "No artificial intelligence was mistreated: it simply wasn't invited.";
   const hintEl = document.querySelector(".scroll-hint");
   if (hintEl && hintEl.lastChild) hintEl.lastChild.nodeValue = "  scroll — the rest won’t write itself";
+
+  /* cookie banner */
+  set(".js-cookie-text", "( I use Microsoft Clarity to understand how you browse the site: clicks and time on page. No personal data, you can refuse anytime )");
+  set(".js-cookie-reject", "DECLINE");
+  set(".js-cookie-accept", "ACCEPT");
 }
 
 if (LANG === "en") applyEnglish();
@@ -714,3 +719,41 @@ if (REDUCED) {
   const s = document.querySelector(".js-strike");
   if (s) s.classList.add("struck");
 }
+
+/* ------------------------------------------------------------
+   COOKIE / CONSENSO — Microsoft Clarity parte solo dopo l'ok.
+   ------------------------------------------------------------ */
+(function () {
+  const CONSENT_KEY = "clarity-consent";
+
+  function loadClarity() {
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "xqvxauky8h");
+  }
+
+  let consent = null;
+  try { consent = localStorage.getItem(CONSENT_KEY); } catch (e) {}
+
+  if (consent === "granted") { loadClarity(); return; }
+  if (consent === "denied") return;
+
+  const banner = document.querySelector(".js-cookie-banner");
+  if (!banner) return;
+  banner.hidden = false;
+
+  const accept = banner.querySelector(".js-cookie-accept");
+  const reject = banner.querySelector(".js-cookie-reject");
+
+  accept.addEventListener("click", () => {
+    try { localStorage.setItem(CONSENT_KEY, "granted"); } catch (e) {}
+    banner.hidden = true;
+    loadClarity();
+  });
+  reject.addEventListener("click", () => {
+    try { localStorage.setItem(CONSENT_KEY, "denied"); } catch (e) {}
+    banner.hidden = true;
+  });
+})();

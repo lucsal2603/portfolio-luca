@@ -61,6 +61,48 @@ a:focus-visible, button:focus-visible {
 }
 .skip-link:focus-visible { top: 0.8rem; }
 
+/* ============ COOKIE BANNER ============ */
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background: var(--bg);
+  border-top: 2px solid var(--ink);
+  padding: 1.1rem var(--pad);
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner p {
+  max-width: 46ch;
+  color: var(--ink);
+}
+.cookie-banner__actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.cookie-banner__btn {
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+.cookie-banner__btn:hover { background: var(--hair); }
+.cookie-banner__btn--accept { background: var(--ink); color: var(--bg); }
+.cookie-banner__btn--accept:hover { background: var(--ink); opacity: 0.85; }
+
+@media (max-width: 640px) {
+  .cookie-banner { flex-direction: column; align-items: flex-start; }
+  .cookie-banner__actions { width: 100%; }
+  .cookie-banner__btn { flex: 1; text-align: center; }
+}
+
 /* ============ TIPOGRAFIA ============ */
 
 .mono-label {
